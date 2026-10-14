@@ -77,7 +77,7 @@ Full inputs/processing/outputs/wireframes: [FEATURE_CATALOG_F1_F16.md](FEATURE_C
 | F5 | **Order Intake** | Product, code, quantity, deadline, value, buyer contract text; baseline rules inferred automatically. |
 | F6 | **NLP Buyer Condition Matcher** | Maps contract sentences to rules (spaCy + all-MiniLM-L6-v2, cosine ≥ 0.65); candidates require **human confirmation**. |
 | F7 | **Deterministic Decision Engine** | Rule-by-rule MET / GAP / BLOCKER with no ML in the verdict path. |
-| F8 | **Time Feasibility Checker** | Effort sum + safety buffer vs. days to deadline → FEASIBLE / AT_RISK / NOT_FEASIBLE. |
+| F8 | **Time Feasibility Checker** | Effort sum + flat safety buffer (default 5 days) vs. days to deadline → FEASIBLE / AT_RISK / NOT_FEASIBLE; any blocker ⇒ NOT_FEASIBLE. |
 | F9 | **Set Union Knapsack Fix Planner** | Chooses which orders to rescue under limited remediation days, counting shared rule fixes once. |
 | F10 | **Executive Analytics Dashboard** | Radar Heatmap (category readiness), Pipeline Risk Matrix (value × risk), Revenue Bottleneck Pareto, Expiry Timeline. |
 | F11 | **Grounded RAG Compliance Copilot** | pgvector retrieval over official sources, temperature 0.1, citation-or-refuse. |
@@ -134,28 +134,30 @@ against rule title+description embeddings; matches ≥ **0.65** become `order_ru
 `source_type='buyer_condition'`, `confirmed_by_user=false`. Only confirmed rows reach the engine.
 See [NLP_CONDITION_MATCHER.md](../05_ai_and_nlp_pipelines/NLP_CONDITION_MATCHER.md).
 
-### 5.5 Deterministic decision engine
-For each applicable rule, take the evidence's *effective grade on the shipment deadline*
-(expired if `expiry_date < shipment_deadline`):
+### 5.5 Deterministic decision engine *(implemented: `backend/src/engine/decisionEngine.js`)*
+For each applicable rule, evidence is judged on the evaluation date (the order's shipment deadline):
 
-| Effective evidence | Rule `is_absolute` | Verdict |
-|---|---|---|
-| third_party_verified or document_backed | any | **MET** |
-| self_declared, missing, or expired | false | **GAP** |
-| self_declared, missing, or expired | true | **BLOCKER** |
+| Evidence | Rule `is_absolute` | Verdict | Effort |
+|---|---|---|---|
+| expired (`proof_grade='expired'` or `expiry_date <` evaluation date) | any | **BLOCKER** | default |
+| third_party_verified | any | **MET** | 0 |
+| document_backed | any | **MET** + `audit_risk=true` | 0 |
+| self_declared or missing | false | **GAP** | default |
+| self_declared or missing | true | **BLOCKER** | default |
 
-Same inputs → same output; fully unit-testable. See [DECISION_ENGINE_SPEC.md](../04_engine_and_algorithms/DECISION_ENGINE_SPEC.md).
+Same inputs → same output; covered by 30 automated tests. See [DECISION_ENGINE_SPEC.md](../04_engine_and_algorithms/DECISION_ENGINE_SPEC.md).
 
-### 5.6 Time feasibility
-`required = Σ assigned_effort_days` over GAP/BLOCKER findings (÷ parallel capacity, default 1);
-`buffered = ⌈required × 1.15⌉`; `days_left = shipment_deadline − today`.
-FEASIBLE if `buffered ≤ days_left`; AT_RISK if `required ≤ days_left < buffered`; NOT_FEASIBLE if `required > days_left`.
+### 5.6 Time feasibility *(implemented: `backend/src/engine/timeChecker.js`)*
+`total_effort = Σ assigned_effort_days` over GAP/BLOCKER findings; `available = shipment_deadline − today`;
+`safety_buffer` = flat days (default **5**). Any BLOCKER ⇒ **NOT_FEASIBLE**; else FEASIBLE if `total + buffer ≤ available`;
+AT_RISK if `total ≤ available`; otherwise NOT_FEASIBLE.
 See [TIME_FEASIBILITY_SPEC.md](../04_engine_and_algorithms/TIME_FEASIBILITY_SPEC.md).
 
-### 5.7 Set Union Knapsack fix planner
-Orders are items with profit = `financial_value_usd`; rules are elements with weight = effort days. Selecting a
-set of orders costs the **union** of their required fixes — shared fixes are paid once. Solvers: marginal-ratio
-**Greedy** (fast, approximate) and **Exact** DP over union-masks (optimal for ≤ ~20 orders). See
+### 5.7 Set Union Knapsack fix planner *(implemented: `backend/src/engine/fixPlanner.js`)*
+Orders are items with profit = `financial_value_usd`; repairs (rules) are elements with weight = effort days. Selecting a
+set of orders costs the **union** of their repairs — shared repairs are paid once. Orders with an absolute blocker are
+reported as `unfixable_orders`. Solvers: marginal-ratio **Greedy** (fast, approximate) and **Exact** DP over union-masks
+(optimal; cross-checked against brute force in tests); `compareFixPlans` reports runtimes and the optimality gap. See
 [KNAPSACK_OPTIMIZATION.md](../04_engine_and_algorithms/KNAPSACK_OPTIMIZATION.md).
 
 ### 5.8 pgvector RAG Copilot

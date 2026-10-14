@@ -48,11 +48,11 @@ Because the engine is deterministic, disagreement with ground truth indicates a 
 
 ## 4. Proof-grade sensitivity testing
 For each scenario, systematically perturb: proof grade (tier up/down per rule), expiry dates (±N days around the shipment deadline), absolute-rule evidence on/off.
-Assert: (a) **monotonicity** — upgrading evidence never worsens a verdict; (b) **boundary exactness** — `expiry_date = shipment_deadline` is valid, `expiry_date = shipment_deadline − 1 day` is expired; (c) the order-level verdict changes exactly when specified
-by the rules; (d) `UPGRADE_FACTOR` sweep (0.25–0.75) effect on feasibility classification. Output: sensitivity table.
+Assert: (a) **monotonicity within valid evidence** — for non-expired evidence, upgrading a grade (self_declared → document_backed → third_party_verified) never worsens a verdict (note: an *expired* strong proof is a BLOCKER, so monotonicity is not claimed across the expiry boundary); (b) **boundary exactness** — `expiry_date = evaluationDate` is valid, `expiry_date = evaluationDate − 1 day` is a blocker; (c) the order-level verdict changes exactly when specified
+by the rules; (d) `document_backed` evidence is MET with `audit_risk = true` and never changes the verdict itself; (e) `safetyBufferDays` sweep (0–15) effect on FEASIBLE/AT_RISK classification. Output: sensitivity table.
 
 ## 5. Time feasibility
-Unit tests from the example table in [TIME_FEASIBILITY_SPEC.md](../04_engine_and_algorithms/TIME_FEASIBILITY_SPEC.md) + randomized property tests (`buffered ≥ required`, classification monotone in `days_left`).
+Implemented and passing: `backend/tests/engine.test.js` (30 tests; FEASIBLE / AT_RISK / NOT_FEASIBLE by time / NOT_FEASIBLE by a single blocker despite ample time, boundary cases, determinism ×50) on the real `rules_master_25.json`. Evaluation additionally reports randomized property checks (classification monotone in available days).
 
 ## 6. Knapsack
 Compare Greedy vs Exact on portfolio scenarios: `optimality_gap = (V_exact − V_greedy)/V_exact`, runtime, constraint satisfaction. Verify union semantics with shared-fix cases.

@@ -1,6 +1,7 @@
 # Feature Catalog F1–F16
 
-Status of every feature: **Specified, not yet implemented** (only `database/` exists). Table names refer to
+Status: **Specified, not yet implemented** for every feature, except the **core engines of F7, F8 and F9**, which are
+implemented as pure functions in `backend/src/engine/` with automated tests (no HTTP routes or database wiring yet). Table names refer to
 [DATA_DICTIONARY.md](../02_architecture/DATA_DICTIONARY.md); "(planned)" tables are not yet in `schema.sql`.
 Endpoints: [REST_API_ENDPOINTS.md](../09_api_contracts/REST_API_ENDPOINTS.md).
 
@@ -49,10 +50,10 @@ Endpoints: [REST_API_ENDPOINTS.md](../09_api_contracts/REST_API_ENDPOINTS.md).
 - **Wireframe:** Summary banner + rule table with MET/GAP/BLOCKER pills and "why" expanders.
 
 ## F8 — Time Feasibility Checker
-- **Inputs:** findings, `shipment_deadline`, today, buffer %, parallel capacity.
+- **Inputs:** findings, `shipment_deadline`, today, `safetyBufferDays` (default 5).
 - **Processing:** [TIME_FEASIBILITY_SPEC.md](../04_engine_and_algorithms/TIME_FEASIBILITY_SPEC.md).
 - **Outputs:** FEASIBLE / AT_RISK / NOT_FEASIBLE + days required vs left.
-- **Wireframe:** Gauge/bar "required vs days left" with buffer zone shading.
+- **Wireframe:** Gauge/bar "required vs days left" with buffer zone shading; a red "blocker" banner overrides the gauge.
 
 ## F9 — Set Union Knapsack Fix Planner
 - **Inputs:** evaluated orders, remediation capacity (days), solver choice.

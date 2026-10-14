@@ -97,19 +97,30 @@ Errors: 422 `EXPIRY_BEFORE_ISSUE`.
 | GET | /orders/:id/findings/history | U |
 | GET | /orders/:id/feasibility | U |
 
-`POST …/evaluate` → `200`
+`POST …/evaluate` → `200` (shape = `evaluateOrder()` in `backend/src/engine/decisionEngine.js`; route not yet implemented)
 ```json
-{ "order_id":"…","evaluated_at":"…","order_verdict":"BLOCKED",
-  "summary":{"met":18,"gap":6,"blocker":1,"total_effort_days":225},
-  "findings":[{"rule_code":"ER-REG-001","verdict_status":"blocker","assigned_effort_days":180,"rule_version":1,"reason":"missing"}] }
+{ "order_id":"…","evaluation_date":"2027-03-01","order_verdict":"BLOCKED",
+  "summary":{"total_rules":25,"met":18,"gap":6,"blocker":1,"audit_risk":4,"total_effort_days":225},
+  "findings":[{"rule_id":"…","rule_code":"ER-REG-001","title":"…","verdict_status":"blocker","assigned_effort_days":180,
+    "audit_risk":false,"is_absolute":true,"reason":"No evidence on file for this rule. …",
+    "citations":{"fda_source_section":"…","cfr_section":"…","iso_clause_number":"4.1.1"},"rule_version":1}] }
 ```
-`GET …/feasibility?buffer=0.15&parallel=1` → `{ "required_days":225,"buffered_days":259,"days_left":90,"status":"NOT_FEASIBLE","slack_days":-169 }`
+`GET …/feasibility?safety_buffer_days=5` → (shape = `checkTimeFeasibility()`)
+```json
+{ "verdict":"NOT_FEASIBLE","available_days":90,"total_effort_days":225,"safety_buffer_days":5,"margin_days":-140,
+  "counts":{"met":18,"gap":6,"blocker":1},"rationale":"…" }
+```
 
 ### A8. Planner (F9)
-`POST /planner/optimize` `{ "capacity_days":60, "solver":"greedy"|"exact"|"both" }` →
+`POST /planner/optimize` `{ "capacity_days":60 }` → (shape = `compareFixPlans()` in `backend/src/engine/fixPlanner.js`; runs greedy and exact)
 ```json
-{ "solver":"exact","selected_order_ids":["…"],"fix_rules":[{"rule_code":"ER-PAS-009","days":45}],
-  "total_days":52,"capacity":60,"saved_value_usd":80000,"unrescued_value_usd":40000,"optimality_gap":0.0 }
+{ "capacity_days":60,"unlocked_orders":["…"],"unlocked_revenue_usd":80000,
+  "selected_gap_repairs":[{"rule_code":"ER-PAS-009","title":"…","effort_days":45}],
+  "ready_orders":[],"unfixable_orders":[{"order_id":"…","absolute_blockers":["ER-REG-001"],"financial_value_usd":0,"reason":"…"}],
+  "infeasible_orders":[],
+  "greedy":{"solver":"greedy","unlocked_revenue_usd":80000,"total_effort_days":52,"runtime_ms":0.2},
+  "exact":{"solver":"exact","unlocked_revenue_usd":80000,"total_effort_days":52,"states_explored":4,"runtime_ms":0.4},
+  "optimality":{"exact_available":true,"greedy_revenue_usd":80000,"exact_revenue_usd":80000,"gap_usd":0,"gap_ratio":0,"greedy_is_optimal":true} }
 ```
 
 ### A9. Analytics (F10)

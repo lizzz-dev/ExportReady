@@ -1,49 +1,56 @@
 # Time Feasibility Specification (F8)
 
-Status: Specified, not implemented. Lives in `backend/`. Consumes the latest findings of
-[DECISION_ENGINE_SPEC.md](DECISION_ENGINE_SPEC.md).
+Status: **Implemented** (core, pure function) in [`backend/src/engine/timeChecker.js`](../../backend/src/engine/timeChecker.js),
+tested by [`backend/tests/engine.test.js`](../../backend/tests/engine.test.js). Not yet exposed over HTTP.
+Consumes the findings of [DECISION_ENGINE_SPEC.md](DECISION_ENGINE_SPEC.md).
 
-## 1. Definitions
-- `E` = set of findings with `verdict_status IN ('gap','blocker')`, each with `assigned_effort_days` `e_i`.
-- `days_left = shipment_deadline − today` (calendar days; ≤ 0 means already late).
-- `P` = parallel capacity (concurrent workstreams), default **1** (conservative, sequential).
-- `β` = safety buffer, default **0.15** (15 %), configurable.
+> Revision note: the earlier draft used a 15 % multiplicative buffer, a parallel-capacity parameter, and let a blocker's effort
+> decide feasibility. Superseded by the flat-day buffer and the blocker rule below.
 
-## 2. Computation
+## 1. API
+```js
+checkTimeFeasibility({ findings, shipmentDeadline, evaluationDate, safetyBufferDays = 5 }) -> {
+  verdict,             // 'FEASIBLE' | 'AT_RISK' | 'NOT_FEASIBLE'
+  available_days,      // shipmentDeadline − evaluationDate (calendar days; negative = deadline passed)
+  total_effort_days,   // Σ assigned_effort_days over GAP and BLOCKER findings (sequential, conservative)
+  safety_buffer_days,
+  margin_days,         // available_days − total_effort_days − safety_buffer_days
+  counts: { met, gap, blocker },
+  rationale            // human-readable explanation
+}
 ```
-required = max( max_i e_i , CEIL( Σ e_i / P ) )        # 0 if E is empty
-buffered = CEIL( required * (1 + β) )
-```
-With `P = 1` this reduces to `required = Σ e_i`.
+`evaluationDate` here is **today** (the day planning happens), not the evidence-validity date used by the decision engine.
+`safetyBufferDays` must be a non-negative integer. Dates: `'YYYY-MM-DD'` or `Date`; invalid → error.
 
-## 3. Classification
+## 2. Verdict rules (top-down, first match wins)
 
-| Condition | Result |
-|---|---|
-| `E` empty | **FEASIBLE** (nothing to fix) |
-| `buffered ≤ days_left` | **FEASIBLE** |
-| `required ≤ days_left < buffered` | **AT_RISK** (fits only without buffer) |
-| `required > days_left` | **NOT_FEASIBLE** |
+| # | Condition | Verdict |
+|---|---|---|
+| 1 | `counts.blocker > 0` | **NOT_FEASIBLE** — regardless of how much time is left |
+| 2 | `total_effort_days = 0` and `available_days ≥ 0` | **FEASIBLE** (nothing to fix) |
+| 3 | `total_effort_days = 0` and `available_days < 0` | **NOT_FEASIBLE** (deadline already passed) |
+| 4 | `total_effort_days + safety_buffer_days ≤ available_days` | **FEASIBLE** |
+| 5 | `total_effort_days ≤ available_days` | **AT_RISK** (fits only without the buffer) |
+| 6 | otherwise | **NOT_FEASIBLE** |
 
-BLOCKER efforts are included in `E`. An unresolved BLOCKER is never ignored: the order is shippable only after
-its effort completes, so a 180-day Green List blocker with 90 days left is NOT_FEASIBLE.
+**Why a blocker is always NOT_FEASIBLE:** a blocker is either an absolute rule (Green List, FDA registration, premarket status),
+which workshop days cannot buy, or expired evidence, which the shipment's validity depends on. The order cannot be called
+shippable until each blocker is cleared, so the checker reports NOT_FEASIBLE and the rationale states whether the remaining effort
+would otherwise have fit. Blocker effort is still included in `total_effort_days` for reporting and for the planner.
 
-## 4. Outputs
-`{ required_days, buffered_days, days_left, status, slack_days = days_left − buffered }` (not persisted in V2;
-recomputed on demand from findings + today).
+## 3. Worked examples (buffer = 5)
 
-## 5. Worked examples (P = 1, β = 0.15)
-
-| Findings (days) | required | buffered | days_left | Result |
+| Findings | total effort | available | Result | margin |
 |---|---|---|---|---|
-| none | 0 | 0 | 60 | FEASIBLE |
-| 45 + 7 + 7 | 59 | 68 | 90 | FEASIBLE |
-| 45 + 7 + 7 | 59 | 68 | 60 | AT_RISK |
-| 45 + 60 | 105 | 121 | 90 | NOT_FEASIBLE |
-| 180 (blocker) | 180 | 207 | 120 | NOT_FEASIBLE |
+| none | 0 | 60 | FEASIBLE | 55 |
+| ER-PAS-011 (7) + ER-PAS-012 (7) | 14 | 30 | FEASIBLE | 11 |
+| same | 14 | 19 | FEASIBLE (boundary) | 0 |
+| same | 14 | 17 | AT_RISK | −2 |
+| same | 14 | 14 | AT_RISK (boundary) | −5 |
+| ER-PAS-009 (45) + ER-DOC-013 (60) | 105 | 90 | NOT_FEASIBLE (time) | −20 |
+| ER-REG-002 missing (blocker, 14) | 14 | 365 | NOT_FEASIBLE (blocker) | 346 |
 
-Full 25-rule gap: Σ = 722 days → buffered 831.
-
-## 6. Notes & limitations
-- Effort days are planning estimates, not guarantees; the model ignores inter-task dependencies beyond `P`.
-- Calendar vs working days: V2 uses calendar days; change here and in the UI together if switched.
+## 4. Notes & limitations
+- Effort days are planning estimates (`rules.default_effort_days`), summed sequentially; no parallel-workstream model in V2.
+- Calendar days, not working days.
+- Results are computed on demand from the latest findings; not persisted.

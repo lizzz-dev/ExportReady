@@ -7,9 +7,9 @@ Status: Specified. Table `factory_evidence` exists; upload/OCR flows are not imp
 | Tier | Grade | Meaning | Counts as MET? |
 |---|---|---|---|
 | 1 | `third_party_verified` | Issued/audited by an independent body (accredited registrar/lab, FDA record, mill 3.1/3.2 MTC) | Yes |
-| 2 | `document_backed` | Factory's own controlled records/documents uploaded | Yes |
-| 3 | `self_declared` | Statement only, no supporting file | No (GAP / BLOCKER if absolute) |
-| 4 | `expired` | Past `expiry_date` (stored or derived) | No |
+| 2 | `document_backed` | Factory's own controlled records/documents uploaded | Yes, flagged `audit_risk = true` |
+| 3 | `self_declared` | Statement only, no supporting file | No (GAP; BLOCKER if the rule is absolute) |
+| 4 | `expired` | Past `expiry_date` (stored or derived) | No — always BLOCKER (even for non-absolute rules) |
 
 ## Flow
 ```mermaid

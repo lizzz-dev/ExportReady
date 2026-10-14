@@ -29,7 +29,7 @@ Details: [SYSTEM_ARCHITECTURE.md](brain/02_architecture/SYSTEM_ARCHITECTURE.md).
 |---|---|---|
 | `brain/` | **Single Source of Truth** — specs, rules, algorithms, API contracts (9 numbered sections) | Populated |
 | `database/` | `schema.sql` (7 tables, 5 ENUMs, RLS) and `seeds/seed_rules.js` | Implemented |
-| `backend/` | Express REST API | Not started (see `brain/09_api_contracts`) |
+| `backend/` | Express REST API + deterministic core engine (`src/engine/`: decision engine, time checker, SUKP fix planner) | Core engine implemented + tested; HTTP routes/DB wiring not started |
 | `ai-service/` | FastAPI OCR / NLP / RAG service | Not started |
 | `frontend/` | Web UI | Not started |
 | `CLAUDE.md` / `AGENTS.md` | Agent rules incl. the mandatory **Living Documentation Sync Rule** | Active |
@@ -59,7 +59,17 @@ npm run seed:rules       # persist
 
 PowerShell equivalent for step 2: `Set-Content .env "DATABASE_URL=postgres://user:password@localhost:5432/exportready"`.
 
-Planned run commands (once the layers exist; ports are the contract in `SYSTEM_ARCHITECTURE.md`):
+## Run the engine tests (no database needed)
+
+```bash
+cd backend
+npm test                         # node --test tests/*.test.js
+node --test tests/engine.test.js # same suite, single file (30 tests)
+```
+
+The tests load the real `brain/03_rules_knowledge_base/rules_master_25.json`. Specs: `brain/04_engine_and_algorithms/`.
+
+Planned run commands (once the remaining layers exist; ports are the contract in `SYSTEM_ARCHITECTURE.md`):
 
 ```bash
 cd backend    && npm install && npm run dev                              # :3000
