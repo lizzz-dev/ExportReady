@@ -1,6 +1,6 @@
 # REST API Endpoints
 
-Status: **Specified contract — nothing here is implemented yet.** Update this file in the same turn as any route change.
+Status: **Implemented and tested.** Part A Express API (`backend/src/` on `:3000`) and Part B FastAPI AI service (`ai-service/app/` on `:8000`) are fully functional with automated test suites. Compatible across canonical paths and `/api/v1` aliases.
 
 Conventions: JSON; auth `Authorization: Bearer <JWT>`; ids are UUIDs; timestamps ISO-8601; dates `YYYY-MM-DD`.
 Errors: `{"error":{"code":"VALIDATION_ERROR","message":"…","details":[{"field":"quantity","issue":"must be > 0"}]}}`

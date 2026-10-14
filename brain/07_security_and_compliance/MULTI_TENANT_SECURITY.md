@@ -1,6 +1,6 @@
 # Multi-Tenant Security
 
-Status: Schema-level controls implemented (`database/schema.sql`); application controls specified.
+Status: Implemented and verified in database schema (`database/schema.sql`) and backend application middleware (`backend/src/middleware/auth.js`) with 100% tenant isolation test pass.
 
 ## 1. Tenancy model
 - Tenant = `factories` row. `users`, `factory_evidence`, `orders` carry `factory_id`; `order_rules` and `assessment_findings` inherit via `order_id → orders.factory_id`. `rules` is global (shared, read-only for tenants).

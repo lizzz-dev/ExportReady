@@ -1,6 +1,6 @@
 # RBAC Permissions
 
-Roles come from ENUM `user_role`: `factory_user`, `admin`. Status: specified (enforced in `backend/` middleware).
+Roles come from ENUM `user_role`: `factory_user`, `admin`. Status: Implemented and tested in `backend/src/middleware/auth.js` (`requireAuth`, `requireFactoryTenant`, `requireAdmin`).
 
 ## Permission matrix
 

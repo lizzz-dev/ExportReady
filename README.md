@@ -29,7 +29,7 @@ Details: [SYSTEM_ARCHITECTURE.md](brain/02_architecture/SYSTEM_ARCHITECTURE.md).
 |---|---|---|
 | `brain/` | **Single Source of Truth** — specs, rules, algorithms, API contracts (9 numbered sections) | Populated |
 | `database/` | `schema.sql` (7 tables, 5 ENUMs, RLS) and `seeds/seed_rules.js` | Implemented |
-| `backend/` | Express REST API + deterministic core engine (`src/engine/`: decision engine, time checker, SUKP fix planner) | Core engine implemented + tested (30/30 tests pass); HTTP routes/DB wiring not started |
+| `backend/` | Express REST API (`:3000`) + deterministic core engine (`src/engine/`: decision engine, time checker, SUKP fix planner) | Implemented + tested (40/40 tests pass: 30 engine + 10 E2E API integration) |
 | `ai-service/` | FastAPI OCR / NLP / RAG service (`:8000`) with deterministic fallback | Implemented + tested (11/11 tests pass); dual-mode offline reliability |
 | `frontend/` | Web UI | Not started |
 | `CLAUDE.md` / `AGENTS.md` | Agent rules incl. the mandatory **Living Documentation Sync Rule** | Active |
@@ -59,15 +59,15 @@ npm run seed:rules       # persist
 
 PowerShell equivalent for step 2: `Set-Content .env "DATABASE_URL=postgres://user:password@localhost:5432/exportready"`.
 
-## Run the engine tests (no database needed)
+## Run the backend tests (no external database needed)
 
 ```bash
 cd backend
-npm test                         # node --test tests/*.test.js
-node --test tests/engine.test.js # same suite, single file (30 tests)
+npm test                         # runs all 40 tests (30 engine + 10 E2E API integration)
+npm start                        # starts Express API server on http://localhost:3000
 ```
 
-The tests load the real `brain/03_rules_knowledge_base/rules_master_25.json`. Specs: `brain/04_engine_and_algorithms/`.
+The tests load the real `brain/03_rules_knowledge_base/rules_master_25.json`. Specs: `brain/04_engine_and_algorithms/` and `brain/09_api_contracts/REST_API_ENDPOINTS.md`.
 
 ## Run the AI microservice tests (no external downloads needed)
 

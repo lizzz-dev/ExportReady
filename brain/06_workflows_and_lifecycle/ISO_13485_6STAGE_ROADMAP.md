@@ -1,6 +1,6 @@
 # ISO 13485 — 6-Stage Roadmap & Registrar Directory (F12)
 
-Status: Specified, content static. Context: QMSR (effective 2 Feb 2026) incorporates ISO 13485:2016, so an ISO 13485
+Status: Implemented and tested in `backend/src/routes/roadmap.js` (`GET /api/iso-roadmap`). Context: QMSR (effective 2 Feb 2026) incorporates ISO 13485:2016, so an ISO 13485
 QMS is the backbone of FDA readiness. **ISO 13485 certification is not itself FDA clearance or Green List admission.**
 
 ## The six stages

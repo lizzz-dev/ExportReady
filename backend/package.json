@@ -5,6 +5,7 @@
   "description": "ExportReady business API and deterministic core engine (decision engine, time feasibility, SUKP fix planner)",
   "main": "src/engine/index.js",
   "scripts": {
+    "start": "node src/server.js",
     "test": "node --test tests/*.test.js"
   },
   "engines": {
