@@ -1,0 +1,535 @@
+[
+  {
+    "rule_code": "ER-REG-001",
+    "title": "FDA Import Alert 76-01 Green List Status",
+    "description": "The manufacturing establishment (specific legal entity AND physical address) must be currently listed on the Green List of FDA Import Alert 76-01 (Detention Without Physical Examination of Surgical/Medical Instruments from Pakistan). Firms not on the Green List are subject to automatic detention without physical examination at the US port of entry. Green List status is firm- and address-specific, is not transferable to subcontractors, and may be removed by FDA following a failed sample or inspection. This is a non-negotiable statutory precondition: no buyer waiver or remediation plan can substitute for it on a shipment.",
+    "is_absolute": true,
+    "default_effort_days": 180,
+    "fda_source_section": "FDA Import Alert 76-01 (Green List); FD&C Act §801(a) [21 U.S.C. 381(a)]",
+    "cfr_section": "21 CFR Part 820 (cGMP/QMSR compliance basis for Green List admission)",
+    "iso_clause_number": "4.1.1",
+    "category": "regulatory_status",
+    "metadata": {
+      "astm_reference": null,
+      "evidence_required": [
+        "Current FDA Import Alert 76-01 Green List entry (screenshot/PDF with retrieval date) naming the exact firm and address",
+        "FDA Establishment Identifier (FEI) matching the Green List entry",
+        "Third-party QSR/QMSR audit report submitted in support of the Green List petition"
+      ],
+      "failure_consequence": "Automatic detention (DWPE) at US port of entry",
+      "verification_method": "Cross-check FEI and address against the live FDA Import Alert 76-01 Green List"
+    }
+  },
+  {
+    "rule_code": "ER-REG-002",
+    "title": "FDA Establishment Registration, Device Listing and US Agent",
+    "description": "A foreign establishment that manufactures devices for import into the US must register with FDA, list each device it exports, renew the registration annually (1 Oct - 31 Dec window) and designate a US Agent. Registration and listing numbers must match the facility named on the commercial invoice and Green List entry. Registration does not denote FDA approval of the establishment or device.",
+    "is_absolute": true,
+    "default_effort_days": 14,
+    "fda_source_section": "FD&C Act §510(i) [21 U.S.C. 360(i)]",
+    "cfr_section": "21 CFR 807.20; 21 CFR 807.40",
+    "iso_clause_number": "4.1.1",
+    "category": "regulatory_status",
+    "metadata": {
+      "astm_reference": null,
+      "evidence_required": [
+        "FDA FURLS establishment registration confirmation with FEI and registration number",
+        "Device listing records for each exported product code",
+        "US Agent designation letter and current contact details",
+        "Evidence of annual registration renewal for the current fiscal year"
+      ],
+      "failure_consequence": "Product is misbranded under FD&C Act §502(o); shipment refusal under §801(a)",
+      "verification_method": "Verify in FDA Establishment Registration & Device Listing database"
+    }
+  },
+  {
+    "rule_code": "ER-REG-003",
+    "title": "Premarket Classification and 510(k) Status of Exported Device",
+    "description": "Each exported surgical instrument must have a documented FDA product classification (product code, device class and regulation number) and a documented premarket pathway: either a 510(k)-exempt Class I general-use manual surgical instrument or a cleared 510(k)/other authorization. Instruments with restricted indications, powered functions, or non-exempt classifications (e.g. certain endoscopic, ophthalmic, neuro or implant-related instruments) require a premarket submission before US marketing.",
+    "is_absolute": true,
+    "default_effort_days": 30,
+    "fda_source_section": "FD&C Act §510(k) [21 U.S.C. 360(k)]; FD&C Act §513 [21 U.S.C. 360c]",
+    "cfr_section": "21 CFR 807.81; 21 CFR 878.4800 (manual surgical instrument for general use); 21 CFR 807.100",
+    "iso_clause_number": "7.2.1",
+    "category": "regulatory_status",
+    "metadata": {
+      "astm_reference": null,
+      "evidence_required": [
+        "FDA Product Classification Database printout for each product code",
+        "510(k) exemption justification memo or 510(k) clearance letter (K-number)",
+        "Intended-use statement consistent with the classification regulation"
+      ],
+      "failure_consequence": "Device is adulterated/misbranded; entry refused under §801(a)",
+      "verification_method": "Match product_code on the order to the FDA Product Classification and 510(k) databases"
+    }
+  },
+  {
+    "rule_code": "ER-QMS-004",
+    "title": "Internal Quality Audit and Management Review",
+    "description": "The factory must conduct planned internal quality audits of its quality management system against 21 CFR Part 820 / ISO 13485:2016 by trained auditors independent of the area audited, record results, and take timely corrective action on deficiencies. Top management must review QMS suitability, adequacy and effectiveness at defined intervals (at least annually) and record the review. Both are expected for Green List maintenance and FDA inspection readiness.",
+    "is_absolute": false,
+    "default_effort_days": 30,
+    "fda_source_section": "FD&C Act §501(h) [21 U.S.C. 351(h)]; FDA Quality System Inspection Technique (QSIT)",
+    "cfr_section": "21 CFR 820.22; 21 CFR 820.20(c)",
+    "iso_clause_number": "8.2.4; 5.6",
+    "category": "quality_management",
+    "metadata": {
+      "astm_reference": null,
+      "qmsr_note": "820.20/820.22 are legacy QSR sections; under QMSR (effective 2 Feb 2026) the requirement is met via ISO 13485:2016 cl. 5.6 and 8.2.4 incorporated by reference at 21 CFR 820.10",
+      "evidence_required": [
+        "Annual internal audit schedule and audit procedure",
+        "Completed audit reports with auditor independence/qualification records",
+        "Management review minutes with inputs/outputs per ISO 13485 cl. 5.6.2-5.6.3",
+        "Corrective action records closing audit findings"
+      ],
+      "verification_method": "Review most recent audit report and management review minutes (within 12 months)"
+    }
+  },
+  {
+    "rule_code": "ER-MAT-005",
+    "title": "Raw Steel Mill Test Certificates per Heat/Lot (AISI 410 / 420)",
+    "description": "Every heat/lot of raw stainless steel bar, strip, or forging stock (AISI 410, AISI 420 / 420A / 420B martensitic grades and other grades per ASTM F899) must be supported by a Mill Test Certificate (MTC), preferably EN 10204 Type 3.1 or 3.2, issued by the steel producer. The MTC must state heat number, grade, chemical composition, mechanical properties/heat-treatment condition, and conform to the applicable composition limits of ASTM F899 (e.g. chromium 11.5-13.5 % for 410 and 12.0-14.0 % for 420). MTCs must be traceable to physical stock via heat number marking.",
+    "is_absolute": false,
+    "default_effort_days": 5,
+    "fda_source_section": "Import Alert 76-01 (steel chemistry/chromium variability rationale); FD&C Act §501(h)",
+    "cfr_section": "21 CFR 820.50(b); 21 CFR 820.80(b)",
+    "iso_clause_number": "7.4.3",
+    "category": "raw_material",
+    "metadata": {
+      "astm_reference": "ASTM F899 (Wrought Stainless Steels for Surgical Instruments); EN 10204:2004 Type 3.1",
+      "qmsr_note": "820.50/820.80 are legacy QSR sections; met via ISO 13485:2016 cl. 7.4 under QMSR",
+      "evidence_required": [
+        "Original MTC for each heat/lot in the order",
+        "Goods-received inspection record linking heat number to batch",
+        "Steel supplier ISO 9001 / mill accreditation certificate"
+      ],
+      "verification_method": "Compare MTC chemistry against ASTM F899 limits for the declared grade"
+    }
+  },
+  {
+    "rule_code": "ER-MAT-006",
+    "title": "Incoming Steel Grade Verification (PMI / Spectrometric Analysis)",
+    "description": "Independent of the supplier MTC, the factory must verify the grade of incoming steel by positive material identification (handheld XRF/OES) or independent laboratory chemical analysis on a documented sampling plan, confirming that chromium, carbon and other alloying elements conform to ASTM F899 for the declared grade (AISI 410 / 420). Mismatches must be quarantined and processed as nonconforming product. This control specifically addresses the chromium-content variability that led to Import Alert 76-01.",
+    "is_absolute": false,
+    "default_effort_days": 10,
+    "fda_source_section": "Import Alert 76-01 (steel chemistry/chromium variability rationale)",
+    "cfr_section": "21 CFR 820.80(b); 21 CFR 820.86",
+    "iso_clause_number": "7.4.3; 8.2.6",
+    "category": "raw_material",
+    "metadata": {
+      "astm_reference": "ASTM F899; ASTM E572 (XRF analysis of stainless steel)",
+      "evidence_required": [
+        "Incoming inspection SOP with PMI sampling plan",
+        "PMI/OES test records per heat/lot",
+        "Calibrated PMI analyser records (see ER-CAL-018)",
+        "Quarantine tags / nonconformity reports for rejected stock"
+      ],
+      "verification_method": "Review PMI records for the heats used in the order and compare against MTC values"
+    }
+  },
+  {
+    "rule_code": "ER-MAT-007",
+    "title": "Heat Treatment and Rockwell Hardness Verification",
+    "description": "Heat-treated martensitic instruments (AISI 410 / 420) must be hardened and tempered under a validated, controlled process, and each lot must be tested for Rockwell hardness against the specified range for the instrument type (typically within the 38-52 HRC window, instrument-specific per ASTM F899 / ISO 7153-1 and the Device Master Record). Hardness testers must be verified with certified reference blocks.",
+    "is_absolute": false,
+    "default_effort_days": 14,
+    "fda_source_section": "FD&C Act §501(h); Import Alert 76-01 (Green List audit scope)",
+    "cfr_section": "21 CFR 820.75; 21 CFR 820.80(c)-(d)",
+    "iso_clause_number": "7.5.6; 8.2.6",
+    "category": "raw_material",
+    "metadata": {
+      "astm_reference": "ASTM F899; ASTM E18 (Rockwell Hardness of Metallic Materials); ISO 7153-1",
+      "qmsr_note": "820.75/820.80 are legacy QSR sections; met via ISO 13485:2016 cl. 7.5.6 and 8.2.6 under QMSR",
+      "evidence_required": [
+        "Heat-treatment furnace validation (IQ/OQ/PQ) and temperature-uniformity survey",
+        "Hardness test logs per lot with instrument ID and operator",
+        "Hardness reference block calibration certificates"
+      ],
+      "verification_method": "Check hardness records for the order's batch against the DMR-specified range"
+    }
+  },
+  {
+    "rule_code": "ER-MAT-008",
+    "title": "Approved Supplier Evaluation and Purchasing Controls",
+    "description": "The factory must maintain documented purchasing controls: an approved supplier list with evaluation and re-evaluation criteria (including steel mills, forging subcontractors, and plating/passivation subcontractors), purchasing data that clearly specify the grade, standard (ASTM F899) and certificate requirements, and records of supplier assessments. Outsourced processes affecting conformity remain the factory's responsibility and must be controlled.",
+    "is_absolute": false,
+    "default_effort_days": 30,
+    "fda_source_section": "FD&C Act §501(h); FDA QSIT Purchasing Controls subsystem",
+    "cfr_section": "21 CFR 820.50(a)-(b)",
+    "iso_clause_number": "7.4.1; 4.1.5",
+    "category": "raw_material",
+    "metadata": {
+      "astm_reference": "ASTM F899",
+      "qmsr_note": "820.50 is a legacy QSR section; met via ISO 13485:2016 cl. 7.4.1 and 4.1.5 under QMSR",
+      "evidence_required": [
+        "Purchasing procedure and approved supplier list (ASL)",
+        "Supplier audit/evaluation records and quality agreements",
+        "Purchase orders citing material specification and certificate type"
+      ],
+      "verification_method": "Trace sampled purchase orders for the order's steel back to an approved supplier"
+    }
+  },
+  {
+    "rule_code": "ER-PAS-009",
+    "title": "Passivation Process Validation",
+    "description": "The passivation process (nitric or citric acid) applied to stainless steel instruments must be validated (IQ/OQ/PQ) with documented acceptance criteria, defined process parameters (acid concentration, temperature, immersion time, rinse water quality) and demonstrated capability to remove free iron and restore the passive oxide layer in accordance with ASTM A967. Revalidation is required after any significant change to bath chemistry, equipment, or loading configuration.",
+    "is_absolute": false,
+    "default_effort_days": 45,
+    "fda_source_section": "FD&C Act §501(h); FDA Guidance 'Quality System Regulation Process Validation' / GHTF SG3 N99-10",
+    "cfr_section": "21 CFR 820.75(a)-(c)",
+    "iso_clause_number": "7.5.6",
+    "category": "passivation",
+    "metadata": {
+      "astm_reference": "ASTM A967/A967M (Chemical Passivation Treatments for Stainless Steel Parts); ASTM A380/A380M (Cleaning, Descaling and Passivation)",
+      "qmsr_note": "820.75 is a legacy QSR section; met via ISO 13485:2016 cl. 7.5.6 under QMSR",
+      "evidence_required": [
+        "Passivation process validation protocol and report (IQ/OQ/PQ)",
+        "Defined process parameter limits and worksheets",
+        "Revalidation records after change control events"
+      ],
+      "verification_method": "Review validation report for ASTM A967 acceptance-criteria compliance"
+    }
+  },
+  {
+    "rule_code": "ER-PAS-010",
+    "title": "Passivation Bath Chemistry and Environmental Controls",
+    "description": "Passivation and pre-cleaning baths must be monitored and controlled: acid concentration verified by titration at defined intervals, temperature and immersion time recorded per batch, bath replacement criteria documented, and rinse water quality (conductivity or chloride content) checked to prevent chloride contamination and flash attack. Bath logs must be linked to the batch (DHR).",
+    "is_absolute": false,
+    "default_effort_days": 14,
+    "fda_source_section": "FD&C Act §501(h)",
+    "cfr_section": "21 CFR 820.70(a); 21 CFR 820.70(c); 21 CFR 820.70(h)",
+    "iso_clause_number": "7.5.1; 6.4.1",
+    "category": "passivation",
+    "metadata": {
+      "astm_reference": "ASTM A967/A967M; ASTM A380/A380M",
+      "qmsr_note": "820.70 is a legacy QSR section; met via ISO 13485:2016 cl. 6.4 and 7.5.1 under QMSR",
+      "evidence_required": [
+        "Bath titration and temperature logs",
+        "Bath replacement/make-up records",
+        "Rinse-water conductivity or chloride test records",
+        "Passivation SOP with parameter limits"
+      ],
+      "verification_method": "Check bath log entries covering the production dates of the order's batch"
+    }
+  },
+  {
+    "rule_code": "ER-PAS-011",
+    "title": "Corrosion Resistance Boil Test",
+    "description": "Each production lot of finished stainless steel instruments must pass a corrosion resistance boil test (boiling in distilled/deionised water for the specified duration, with dry and visual examination for rust, pitting or staining) on a documented sampling plan, with results recorded against the lot. Failure triggers lot quarantine, root cause investigation, and CAPA.",
+    "is_absolute": false,
+    "default_effort_days": 7,
+    "fda_source_section": "Import Alert 76-01 (Green List audit scope); FD&C Act §501(h)",
+    "cfr_section": "21 CFR 820.80(d); 21 CFR 820.90",
+    "iso_clause_number": "8.2.6; 8.3.1",
+    "category": "passivation",
+    "metadata": {
+      "astm_reference": "ASTM F1089 (Corrosion of Surgical Instruments - boil test); ASTM A967/A967M; ISO 13402 / ISO 7153-1 corrosion resistance",
+      "qmsr_note": "820.80/820.90 are legacy QSR sections; met via ISO 13485:2016 cl. 8.2.6 and 8.3 under QMSR",
+      "evidence_required": [
+        "Boil test SOP specifying water quality, duration and acceptance criteria",
+        "Lot-level boil test records with sample sizes and operator sign-off",
+        "Photographs or reports for any failed sample and associated NCR"
+      ],
+      "verification_method": "Review boil test record for the lot(s) included in the order"
+    }
+  },
+  {
+    "rule_code": "ER-PAS-012",
+    "title": "Copper Sulfate Test for Free Iron on Passivated Parts",
+    "description": "Passivated 400-series martensitic instruments must be tested with the copper sulfate test (ASTM A967 Practice D) to detect free iron on the surface: the part is wetted with the acidified copper sulfate solution for the specified period and examined for copper plating, which indicates free iron and failed passivation. Frequency and sampling per lot must be defined; failures require re-passivation and re-test of the entire lot.",
+    "is_absolute": false,
+    "default_effort_days": 7,
+    "fda_source_section": "Import Alert 76-01 (Green List audit scope); FD&C Act §501(h)",
+    "cfr_section": "21 CFR 820.80(c)-(d); 21 CFR 820.75(b)",
+    "iso_clause_number": "7.5.6; 8.2.6",
+    "category": "passivation",
+    "metadata": {
+      "astm_reference": "ASTM A967/A967M Practice D (Copper Sulfate Test); ASTM F1089",
+      "qmsr_note": "820.75/820.80 are legacy QSR sections; met via ISO 13485:2016 cl. 7.5.6 and 8.2.6 under QMSR",
+      "evidence_required": [
+        "Copper sulfate test procedure and solution preparation records",
+        "Lot-level test results, with re-passivation records for failures",
+        "Operator training records for test execution and interpretation"
+      ],
+      "verification_method": "Review copper sulfate test results for the lot(s) included in the order"
+    }
+  },
+  {
+    "rule_code": "ER-DOC-013",
+    "title": "Device Master Record (DMR) / Medical Device File",
+    "description": "For each device type the factory must maintain a Device Master Record (Medical Device File under ISO 13485:2016) containing or referencing: device specifications and drawings (materials, grade, dimensions, hardness range), production process specifications and passivation parameters, quality assurance procedures and acceptance criteria, packaging and labeling specifications (including UDI), and installation/servicing/reprocessing instructions where applicable. The DMR must be approved and controlled under document control.",
+    "is_absolute": false,
+    "default_effort_days": 60,
+    "fda_source_section": "FD&C Act §501(h) [21 U.S.C. 351(h)]; Import Alert 76-01 (Green List audit scope)",
+    "cfr_section": "21 CFR 820.181",
+    "iso_clause_number": "4.2.3",
+    "category": "documentation_records",
+    "metadata": {
+      "astm_reference": "ASTM F899 (material spec referenced in DMR)",
+      "qmsr_note": "820.181 is a legacy QSR section; under QMSR (effective 2 Feb 2026) the equivalent is the Medical Device File required by ISO 13485:2016 cl. 4.2.3, incorporated by reference at 21 CFR 820.10",
+      "evidence_required": [
+        "DMR index per device type with revision status",
+        "Approved drawings and material/hardness specifications",
+        "Process specifications (forging, heat treatment, grinding, passivation)",
+        "Approved labeling and packaging specifications"
+      ],
+      "verification_method": "Confirm a DMR exists and is current for the order's product_code"
+    }
+  },
+  {
+    "rule_code": "ER-DOC-014",
+    "title": "Device History Record (DHR) and Batch/Lot Traceability",
+    "description": "For every batch/lot the factory must keep a Device History Record demonstrating that the device was manufactured in accordance with the DMR: dates of manufacture, quantity manufactured and released for distribution, acceptance records (boil, copper sulfate, hardness, dimensional inspection), the primary identification label/UDI used, and traceability from finished lot back to steel heat number, heat treatment batch, and passivation batch. Records must be retrievable on FDA request.",
+    "is_absolute": false,
+    "default_effort_days": 30,
+    "fda_source_section": "FD&C Act §501(h); Import Alert 76-01 (Green List audit scope)",
+    "cfr_section": "21 CFR 820.184; 21 CFR 820.65",
+    "iso_clause_number": "7.5.9",
+    "category": "documentation_records",
+    "metadata": {
+      "astm_reference": "ASTM F899",
+      "qmsr_note": "820.184 is a legacy QSR section; met via ISO 13485:2016 cl. 7.5.9 (traceability) and 4.2.5 (control of records) under QMSR",
+      "evidence_required": [
+        "Batch traveller / DHR template and completed sample DHRs",
+        "Heat-number-to-lot traceability matrix",
+        "Release authorization record with quantity and date",
+        "Printed label or UDI sample archived in the DHR"
+      ],
+      "verification_method": "Trace one sample unit from the order's lot back to its steel heat number via DHR"
+    }
+  },
+  {
+    "rule_code": "ER-DOC-015",
+    "title": "Document Control and Change Management",
+    "description": "All quality system documents (SOPs, work instructions, drawings, specifications) must be reviewed and approved before issue, uniquely identified with revision status, distributed to points of use, and prevented from unintended use when obsolete. Changes must be reviewed and approved by the same function as the original (or a designated function) and dated, with change records maintained.",
+    "is_absolute": false,
+    "default_effort_days": 21,
+    "fda_source_section": "FD&C Act §501(h)",
+    "cfr_section": "21 CFR 820.40",
+    "iso_clause_number": "4.2.4",
+    "category": "documentation_records",
+    "metadata": {
+      "astm_reference": null,
+      "qmsr_note": "820.40 is a legacy QSR section; met via ISO 13485:2016 cl. 4.2.4 under QMSR",
+      "evidence_required": [
+        "Document control SOP and master document list",
+        "Change request/approval records",
+        "Evidence of removal of obsolete documents from points of use"
+      ],
+      "verification_method": "Sample five controlled documents and confirm revision, approval signature and distribution"
+    }
+  },
+  {
+    "rule_code": "ER-DOC-016",
+    "title": "Quality Records Retention and Control",
+    "description": "Quality records (DHRs, inspection and test records, calibration records, audit reports, complaint files, CAPA records) must be maintained legibly, stored to prevent deterioration or loss, readily retrievable, and retained for the design and expected life of the device but not less than 2 years from the date of release for commercial distribution. Electronic records must be protected against unauthorized alteration.",
+    "is_absolute": false,
+    "default_effort_days": 14,
+    "fda_source_section": "FD&C Act §501(h)",
+    "cfr_section": "21 CFR 820.180",
+    "iso_clause_number": "4.2.5",
+    "category": "documentation_records",
+    "metadata": {
+      "astm_reference": null,
+      "qmsr_note": "820.180 is a legacy QSR section; under QMSR the equivalent is 21 CFR 820.35 (control of records) plus ISO 13485:2016 cl. 4.2.5",
+      "evidence_required": [
+        "Control of records SOP with retention schedule",
+        "Storage/back-up arrangements for paper and electronic records",
+        "Sample retrieval test of a record older than 12 months"
+      ],
+      "verification_method": "Request a record from a prior-year batch and time its retrieval"
+    }
+  },
+  {
+    "rule_code": "ER-DOC-017",
+    "title": "Nonconforming Product Control",
+    "description": "Procedures must define identification, documentation, evaluation, segregation and disposition of nonconforming product (rework, regrade, scrap, concession), including the authority for disposition and re-inspection after rework. Failed boil, copper sulfate, hardness, or dimensional tests must generate a nonconformity report linked to the affected lot and must not be shipped without documented, justified concession.",
+    "is_absolute": false,
+    "default_effort_days": 14,
+    "fda_source_section": "FD&C Act §501(h)",
+    "cfr_section": "21 CFR 820.90",
+    "iso_clause_number": "8.3.1; 8.3.2",
+    "category": "documentation_records",
+    "metadata": {
+      "astm_reference": null,
+      "qmsr_note": "820.90 is a legacy QSR section; met via ISO 13485:2016 cl. 8.3 under QMSR",
+      "evidence_required": [
+        "Nonconforming product SOP and disposition authority matrix",
+        "NCR log with closed examples",
+        "Physical quarantine area and tagging evidence"
+      ],
+      "verification_method": "Review NCR log for the production period and verify each NCR has a dispositioned outcome"
+    }
+  },
+  {
+    "rule_code": "ER-CAL-018",
+    "title": "Calibration System for Inspection, Measuring and Test Equipment",
+    "description": "All measuring and test equipment affecting product conformity (micrometers, vernier calipers, height gauges, go/no-go gauges, hardness testers, PMI analysers, thermometers on furnaces and passivation baths, pH/conductivity meters) must be uniquely identified, calibrated at defined intervals against documented procedures with specified accuracy limits, labeled with calibration status, and protected from adjustments that would invalidate calibration. When equipment is found out of tolerance, the validity of previous measurements must be assessed and recorded.",
+    "is_absolute": false,
+    "default_effort_days": 21,
+    "fda_source_section": "FD&C Act §501(h); FDA QSIT Production and Process Controls",
+    "cfr_section": "21 CFR 820.72(a)-(b)",
+    "iso_clause_number": "7.6",
+    "category": "calibration",
+    "metadata": {
+      "astm_reference": "ASTM E18 (hardness tester verification)",
+      "qmsr_note": "820.72 is a legacy QSR section; met via ISO 13485:2016 cl. 7.6 under QMSR",
+      "evidence_required": [
+        "Master equipment list with unique IDs and calibration due dates",
+        "Calibration procedures with tolerance limits",
+        "Calibration certificates/records and out-of-tolerance impact assessments",
+        "Calibration status labels on equipment"
+      ],
+      "verification_method": "Sample ten instruments on the shop floor and verify they are within calibration date"
+    }
+  },
+  {
+    "rule_code": "ER-CAL-019",
+    "title": "Calibration Traceability to National/International Standards",
+    "description": "Calibration standards (gauge blocks, master rings, certified hardness reference blocks, reference thermometers) must be traceable to national or international measurement standards via an accredited calibration laboratory (ISO/IEC 17025). Where no standard exists, the basis for calibration must be documented. Certificates must show measurement uncertainty and be on file.",
+    "is_absolute": false,
+    "default_effort_days": 14,
+    "fda_source_section": "FD&C Act §501(h)",
+    "cfr_section": "21 CFR 820.72(b)(2)",
+    "iso_clause_number": "7.6",
+    "category": "calibration",
+    "metadata": {
+      "astm_reference": "ISO/IEC 17025:2017 (calibration laboratory competence)",
+      "qmsr_note": "820.72 is a legacy QSR section; met via ISO 13485:2016 cl. 7.6 under QMSR",
+      "evidence_required": [
+        "Accredited lab certificates (ISO/IEC 17025) for reference standards",
+        "Traceability chain diagram from working gauges to national standard",
+        "Calibration uncertainty statements"
+      ],
+      "verification_method": "Verify accreditation scope of the calibration laboratory covers the calibrated parameter"
+    }
+  },
+  {
+    "rule_code": "ER-UDI-020",
+    "title": "UDI on Device Label and Package",
+    "description": "The label and device package of each exported instrument must bear a Unique Device Identifier (UDI) comprising a device identifier (DI) and production identifier (PI: lot/batch, manufacturing date and/or expiration date as applicable) issued under an FDA-accredited issuing agency system (GS1, HIBCC or ICCBBA), presented in both easily readable plain-text and automatic identification and data capture (AIDC) form. Dates must be in the format required by 21 CFR 801.18 (YYYY-MM-DD).",
+    "is_absolute": false,
+    "default_effort_days": 21,
+    "fda_source_section": "FD&C Act §519(f) [21 U.S.C. 360i(f)]; UDI Final Rule (78 FR 58786)",
+    "cfr_section": "21 CFR 801.20; 21 CFR 830.20; 21 CFR 801.40; 21 CFR 801.18",
+    "iso_clause_number": "7.5.8",
+    "category": "udi_labeling",
+    "metadata": {
+      "astm_reference": null,
+      "qmsr_note": "Legacy 21 CFR 820.120 labeling controls are now addressed by 21 CFR 820.45 (device labeling and packaging controls) under QMSR",
+      "evidence_required": [
+        "Issuing agency (GS1/HIBCC/ICCBBA) company prefix agreement",
+        "Approved label artwork with DI, PI and AIDC symbol",
+        "Barcode verification (ISO/IEC 15416 or 15415) grade reports",
+        "Labeling procedure including label reconciliation"
+      ],
+      "verification_method": "Scan sample packaged units and verify DI/PI encoding and plain-text match"
+    }
+  },
+  {
+    "rule_code": "ER-UDI-021",
+    "title": "Direct Part Marking of Reusable Instruments",
+    "description": "Devices intended to be used more than once and reprocessed between uses (reusable surgical instruments) must bear a permanent UDI directly on the device itself, in plain-text and/or AIDC form, unless an exception applies (e.g. direct marking not technologically feasible, or would interfere with safety/effectiveness). The permanent mark (laser etching, electro-chemical or dot-peen) must survive the expected number of reprocessing cycles without affecting corrosion resistance or passivation.",
+    "is_absolute": false,
+    "default_effort_days": 30,
+    "fda_source_section": "FD&C Act §519(f); UDI Final Rule (78 FR 58786)",
+    "cfr_section": "21 CFR 801.45; 21 CFR 801.35",
+    "iso_clause_number": "7.5.8",
+    "category": "udi_labeling",
+    "metadata": {
+      "astm_reference": "ASTM A967/A967M (post-marking passivation to protect corrosion resistance of marked areas)",
+      "evidence_required": [
+        "Direct marking specification (method, location, DataMatrix/linear symbology)",
+        "Process validation for the laser/electro-chemical marker",
+        "Reprocessing durability test results (e.g. repeated autoclave/wash cycles)",
+        "Documented 801.45 exception justification, where claimed"
+      ],
+      "verification_method": "Inspect sample instruments for permanent UDI marking and legibility after simulated reprocessing"
+    }
+  },
+  {
+    "rule_code": "ER-UDI-022",
+    "title": "GUDID Data Submission",
+    "description": "The labeler must submit the required device identification data for each version/model to FDA's Global Unique Device Identification Database (GUDID) via a GUDID account (Web Interface or HL7 SPL), keep it current when attributes change, and ensure that the DI on the label corresponds to a published GUDID record before the device is marketed in the US. The labeler's DUNS number must be valid.",
+    "is_absolute": false,
+    "default_effort_days": 21,
+    "fda_source_section": "FD&C Act §519(f); FDA GUDID Guidance",
+    "cfr_section": "21 CFR 830.300; 21 CFR 830.310; 21 CFR 830.320",
+    "iso_clause_number": "7.5.8",
+    "category": "udi_labeling",
+    "metadata": {
+      "astm_reference": null,
+      "evidence_required": [
+        "GUDID labeler account confirmation and DUNS number",
+        "GUDID record export/screenshot for each DI",
+        "Change-control procedure for GUDID data updates"
+      ],
+      "verification_method": "Search AccessGUDID for each DI on the order's labels"
+    }
+  },
+  {
+    "rule_code": "ER-CLN-023",
+    "title": "Cleaning Process Validation and Product Cleanliness",
+    "description": "Manufacturing residues (cutting fluids, polishing compounds, oils, grinding swarf) must be removed by a validated cleaning process, with documented cleaning agents, concentration, temperature, ultrasonic parameters, and rinse stages, and with cleanliness acceptance criteria verified before passivation (grease and oil can inhibit passivation and invalidate ASTM A967 results). Pre-passivation cleaning must be controlled and recorded per batch.",
+    "is_absolute": false,
+    "default_effort_days": 30,
+    "fda_source_section": "FD&C Act §501(h)",
+    "cfr_section": "21 CFR 820.70(e); 21 CFR 820.75(a)",
+    "iso_clause_number": "7.5.2; 7.5.6",
+    "category": "cleaning_bioburden",
+    "metadata": {
+      "astm_reference": "ASTM A380/A380M (Cleaning and Descaling of Stainless Steel Parts); ASTM A967/A967M",
+      "qmsr_note": "820.70/820.75 are legacy QSR sections; met via ISO 13485:2016 cl. 7.5.2 and 7.5.6 under QMSR",
+      "evidence_required": [
+        "Cleaning process validation report",
+        "Cleaning agent specifications and bath control logs",
+        "Water-break or residue test records before passivation"
+      ],
+      "verification_method": "Review cleaning validation for defined acceptance criteria and the latest revalidation date"
+    }
+  },
+  {
+    "rule_code": "ER-CLN-024",
+    "title": "Bioburden and Contamination Control",
+    "description": "The factory must establish and maintain procedures to prevent contamination of product and personnel: controlled work environment, hygiene and health requirements for staff handling finished instruments, clean packaging area, and, where the product is supplied sterile or has sterility claims, bioburden monitoring per ISO 11737-1. Non-sterile reusable instruments must be labeled as non-sterile and shipped with reprocessing instructions validated by the manufacturer.",
+    "is_absolute": false,
+    "default_effort_days": 30,
+    "fda_source_section": "FD&C Act §501(h); FDA Guidance 'Reprocessing Medical Devices in Health Care Settings: Validation Methods and Labeling' (2015)",
+    "cfr_section": "21 CFR 820.70(d)-(e); 21 CFR 801.5",
+    "iso_clause_number": "6.4.2; 7.5.2",
+    "category": "cleaning_bioburden",
+    "metadata": {
+      "astm_reference": "ISO 11737-1 (bioburden determination); ISO 17664 (reprocessing information)",
+      "qmsr_note": "820.70 is a legacy QSR section; met via ISO 13485:2016 cl. 6.2, 6.4 and 7.5.2 under QMSR",
+      "evidence_required": [
+        "Contamination control SOP and hygiene procedure",
+        "Packaging area cleaning/inspection records",
+        "Bioburden test reports (if sterile or low-bioburden claimed)",
+        "Validated reprocessing instructions in the IFU"
+      ],
+      "verification_method": "Walk-through of packaging area and review of hygiene/bioburden records"
+    }
+  },
+  {
+    "rule_code": "ER-CAPA-025",
+    "title": "Corrective and Preventive Action (CAPA) System",
+    "description": "A documented CAPA procedure must analyze processes, work operations, concessions, quality audit reports, complaints and nonconformities to identify existing and potential causes of nonconformity; verify or validate that corrective actions are effective and do not adversely affect the finished device; implement and record changes; and submit CAPA information for management review. Repeated boil or copper sulfate failures, calibration out-of-tolerance events and audit findings must flow through CAPA.",
+    "is_absolute": false,
+    "default_effort_days": 30,
+    "fda_source_section": "FD&C Act §501(h); FDA QSIT CAPA subsystem",
+    "cfr_section": "21 CFR 820.100(a)-(b)",
+    "iso_clause_number": "8.5.2; 8.5.3",
+    "category": "capa",
+    "metadata": {
+      "astm_reference": null,
+      "qmsr_note": "820.100 is a legacy QSR section; met via ISO 13485:2016 cl. 8.5.2 and 8.5.3 under QMSR",
+      "evidence_required": [
+        "CAPA SOP including root-cause and effectiveness-check methodology",
+        "CAPA log with open/closed status and effectiveness verification",
+        "Evidence of CAPA inputs from audits, NCRs and complaints",
+        "CAPA trend summary in management review"
+      ],
+      "verification_method": "Select three closed CAPAs and verify root cause, action, and effectiveness check"
+    }
+  }
+]

@@ -1,0 +1,17 @@
+{
+  "name": "exportready-database",
+  "version": "1.0.0",
+  "private": true,
+  "description": "PostgreSQL schema and seed scripts for ExportReady",
+  "scripts": {
+    "seed:rules": "node seeds/seed_rules.js",
+    "seed:rules:dry": "node seeds/seed_rules.js --dry-run"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "pg": "^8.11.5"
+  }
+}
