@@ -29,8 +29,8 @@ Details: [SYSTEM_ARCHITECTURE.md](brain/02_architecture/SYSTEM_ARCHITECTURE.md).
 |---|---|---|
 | `brain/` | **Single Source of Truth** — specs, rules, algorithms, API contracts (9 numbered sections) | Populated |
 | `database/` | `schema.sql` (7 tables, 5 ENUMs, RLS) and `seeds/seed_rules.js` | Implemented |
-| `backend/` | Express REST API + deterministic core engine (`src/engine/`: decision engine, time checker, SUKP fix planner) | Core engine implemented + tested; HTTP routes/DB wiring not started |
-| `ai-service/` | FastAPI OCR / NLP / RAG service | Not started |
+| `backend/` | Express REST API + deterministic core engine (`src/engine/`: decision engine, time checker, SUKP fix planner) | Core engine implemented + tested (30/30 tests pass); HTTP routes/DB wiring not started |
+| `ai-service/` | FastAPI OCR / NLP / RAG service (`:8000`) with deterministic fallback | Implemented + tested (11/11 tests pass); dual-mode offline reliability |
 | `frontend/` | Web UI | Not started |
 | `CLAUDE.md` / `AGENTS.md` | Agent rules incl. the mandatory **Living Documentation Sync Rule** | Active |
 
@@ -68,6 +68,15 @@ node --test tests/engine.test.js # same suite, single file (30 tests)
 ```
 
 The tests load the real `brain/03_rules_knowledge_base/rules_master_25.json`. Specs: `brain/04_engine_and_algorithms/`.
+
+## Run the AI microservice tests (no external downloads needed)
+
+```bash
+cd ai-service
+python -m pytest tests/test_ai_service.py -v # 11 tests covering NLP, OCR, RAG & guardrails
+```
+
+The AI service automatically uses high-accuracy deterministic fallback matching if heavy transformer weights or Tesseract binaries are not installed.
 
 Planned run commands (once the remaining layers exist; ports are the contract in `SYSTEM_ARCHITECTURE.md`):
 

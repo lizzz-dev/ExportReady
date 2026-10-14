@@ -155,23 +155,74 @@ Errors: 422 `EXPIRY_BEFORE_ISSUE`.
 
 | Method | Path | Description |
 |---|---|---|
-| POST | /ocr/inspect | MTC extraction |
-| POST | /nlp/match | Buyer-condition matching |
-| POST | /rag/ask | Grounded Q&A |
+| POST | /ocr/inspect-document | MTC extraction & validation (multipart `file` or JSON payload; alias: `/ocr/inspect`) |
+| POST | /nlp/match-conditions | Buyer-condition clause matching against 25 rules (alias: `/nlp/match`) |
+| POST | /rag/query | Grounded regulatory Q&A + SOP outline + legal disclaimer (alias: `/rag/ask`) |
 | POST | /rag/ingest | (admin job) corpus ingestion |
-| GET | /health | Liveness |
+| GET | /health | Liveness & model status |
 
-`POST /ocr/inspect` (multipart `file`, form `declared_grade?`) →
+`POST /ocr/inspect-document` (or `/ocr/inspect`, multipart `file` or JSON `{"text":"...", "declared_instrument_type":"cutting"}`) →
 ```json
-{ "extraction_id":"…","fields":{"heat_number":{"value":"H12345","confidence":0.93},"grade":{"value":"420","confidence":0.9},
-  "chemistry":{"Cr":{"value":13.1,"confidence":0.88}}},
-  "flags":[{"code":"GRADE_MISMATCH","severity":"high","message":"MTC grade 304 vs declared 420"}],
-  "suggested_proof_grade":"document_backed" }
+{
+  "extraction_id": "ext-abc12345",
+  "filename": "mtc_sample.txt",
+  "fields": {
+    "material_grade": {"value": "AISI 420", "confidence": 0.95},
+    "heat_lot_number": {"value": "HT-88219", "confidence": 0.95},
+    "testing_standard": {"value": "ASTM F899", "confidence": 0.95},
+    "issue_date": {"value": "2026-01-15", "confidence": 0.95},
+    "expiry_date": {"value": null, "confidence": 0.5},
+    "chemistry": {"Cr": 13.2, "C": 0.22, "Ni": 0.18}
+  },
+  "flags": [],
+  "discrepancy_alert": false,
+  "suggested_proof_grade": "document_backed",
+  "assisted_review_ready": true
+}
 ```
-`POST /nlp/match` `{ "text":"…","rules":[{"rule_code","title","description"}],"threshold":0.65 }` →
-`{ "candidates":[{"rule_code","score","sentence"}] }`
-`POST /rag/ask` `{ "question":"…","context":{"rule_codes":["ER-PAS-009"]} }` →
-`{ "answer":"… [S1]","citations":[{"id":"S1","section_ref":"21 CFR 820.75","url":"https://www.ecfr.gov/…"}],"refused":false }`
+
+`POST /nlp/match-conditions` (or `/nlp/match`, `{"text":"Buyer clause text...", "threshold":0.65}`) →
+```json
+{
+  "total_clauses_evaluated": 3,
+  "candidates": [
+    {
+      "clause": "Instruments shall be forged from martensitic AISI 420 stainless steel with Mill Test Certificate.",
+      "matched_rule_code": "ER-MAT-005",
+      "rule_title": "Martensitic Stainless Steel Chemical Composition (ASTM F899)",
+      "confidence_score": 0.82,
+      "statutory_citations": {
+        "astm_standard": "ASTM F899",
+        "cfr_citation": "21 CFR 820.70(h)"
+      },
+      "confirmed_by_user": false,
+      "requires_human_confirmation": true
+    }
+  ]
+}
+```
+
+`POST /rag/query` (or `/rag/ask`, `{"query":"...", "context_rule_codes":["ER-PAS-009"]}`) →
+```json
+{
+  "query": "How do we validate citric acid passivation per ASTM A967?",
+  "answer": "Citric and nitric acid passivation must follow validated bath formulations per ASTM A967 [S1]. ...",
+  "citations": [
+    {
+      "citation_id": "S1",
+      "source_name": "ASTM A967 / ASTM F1089 Chemical Passivation & Cleanliness",
+      "cfr_section": "21 CFR 820.75",
+      "statutory_basis": "FDA QMSR §820.75 Process Validation"
+    }
+  ],
+  "sop_outline": [
+    "1. Define bath chemistry, concentration, temperature, and immersion time in written SOP.",
+    "2. Conduct process qualification (IQ/OQ/PQ) with worst-case load configurations."
+  ],
+  "disclaimer": "This information is provided solely as decision support for export readiness planning ... NOT LEGAL ADVICE ...",
+  "refused": false
+}
+```
 
 ## Authorisation summary
 Public: register, login, refresh, policy, health. Admin-only: `/admin/*`. Everything else requires `U` (tenant-scoped) unless noted `U/A`.

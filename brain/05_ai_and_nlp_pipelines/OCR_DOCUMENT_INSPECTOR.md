@@ -1,10 +1,10 @@
 # OCR Document Inspector (F4)
 
-Status: Specified, not implemented. Lives in `ai-service/`.
+Status: Implemented and tested in `ai-service/app/ocr_inspector.py` (FastAPI `:8000`).
 
 ## 1. Scope
 Primary document: **Mill Test Certificate (MTC)** for raw steel (rule ER-MAT-005; cross-check for ER-MAT-006).
-The same pipeline can be extended to other documents later.
+The pipeline extracts text via `pdfplumber` / `pytesseract` when system binaries are available, or direct UTF-8/plain text payload parsing in zero-dependency fallback mode.
 
 ## 2. Pipeline
 1. **Ingest:** PDF / PNG / JPG (size and MIME validated; max 10 MB).

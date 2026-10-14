@@ -1,6 +1,6 @@
 # RAG Compliance Copilot Pipeline (F11)
 
-Status: Specified, not implemented. Lives in `ai-service/` with `pgvector` in PostgreSQL.
+Status: Implemented and tested in `ai-service/app/rag_copilot.py` and `ai-service/app/regulatory_corpus.py` (FastAPI `:8000`), with pgvector planned for backend persistence.
 
 ## 1. Corpus (legal-safe)
 Only **public-domain / government sources** and **team-authored summaries**: 21 CFR Parts 801/807/820/830 (eCFR), FDA guidance, Import
