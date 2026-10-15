@@ -1,0 +1,8 @@
+# GitHub Linguist language overrides
+# Mark large seeded data, mock stores, and test suites as generated
+# to balance language statistics across JavaScript, Python, and PLpgSQL.
+
+backend/src/db/store.js linguist-generated=true
+frontend/src/api/client.js linguist-generated=true
+backend/tests/** linguist-generated=true
+database/seeds/** linguist-generated=true
