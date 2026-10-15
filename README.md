@@ -31,7 +31,7 @@ Details: [SYSTEM_ARCHITECTURE.md](brain/02_architecture/SYSTEM_ARCHITECTURE.md).
 | `database/` | `schema.sql` (7 tables, 5 ENUMs, RLS) and `seeds/seed_rules.js` | Implemented |
 | `backend/` | Express REST API (`:3000`) + deterministic core engine (`src/engine/`: decision engine, time checker, SUKP fix planner) | Implemented + tested (40/40 tests pass: 30 engine + 10 E2E API integration) |
 | `ai-service/` | FastAPI OCR / NLP / RAG service (`:8000`) with deterministic fallback | Implemented + tested (11/11 tests pass); dual-mode offline reliability |
-| `frontend/` | Web UI | Not started |
+| `frontend/` | Web SPA (React 18, Vite, Tailwind CSS, Recharts, Lucide Icons) | Implemented + verified (Vite production bundle built, zero compile errors) |
 | `CLAUDE.md` / `AGENTS.md` | Agent rules incl. the mandatory **Living Documentation Sync Rule** | Active |
 
 Start reading at [`brain/01_prd_and_specs/PROPOSAL_AND_METHODOLOGY_V2.md`](brain/01_prd_and_specs/PROPOSAL_AND_METHODOLOGY_V2.md).
@@ -78,7 +78,15 @@ python -m pytest tests/test_ai_service.py -v # 11 tests covering NLP, OCR, RAG &
 
 The AI service automatically uses high-accuracy deterministic fallback matching if heavy transformer weights or Tesseract binaries are not installed.
 
-Planned run commands (once the remaining layers exist; ports are the contract in `SYSTEM_ARCHITECTURE.md`):
+## Run the frontend application
+
+```bash
+cd frontend
+npm run dev                      # starts Vite dev server on http://localhost:5173
+npm run build                    # builds production bundle in dist/
+```
+
+Run commands for all layers:
 
 ```bash
 cd backend    && npm install && npm run dev                              # :3000

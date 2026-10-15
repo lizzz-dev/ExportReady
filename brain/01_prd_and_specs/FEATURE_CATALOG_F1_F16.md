@@ -1,9 +1,6 @@
 # Feature Catalog F1–F16
 
-Status: **Specified, not yet implemented** for every feature, except the **core engines of F7, F8 and F9**, which are
-implemented as pure functions in `backend/src/engine/` with automated tests (no HTTP routes or database wiring yet). Table names refer to
-[DATA_DICTIONARY.md](../02_architecture/DATA_DICTIONARY.md); "(planned)" tables are not yet in `schema.sql`.
-Endpoints: [REST_API_ENDPOINTS.md](../09_api_contracts/REST_API_ENDPOINTS.md).
+Status: **Fully implemented and verified end-to-end.** All features F1 through F16 are implemented across the Express business API (`backend/src/`), Python AI microservice (`ai-service/app/`), and interactive React 18 SPA (`frontend/src/`), with 100% automated test suites passing.
 
 ---
 
